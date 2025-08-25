@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Newsletter</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Apply the Inter font to the body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* A light gray background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <script>
+      (function (s, e, n, d, er) {
+        s['Sender'] = er;
+        s[er] = s[er] || function () {
+          (s[er].q = s[er].q || []).push(arguments)
+        }, s[er].l = 1 * new Date();
+        var a = e.createElement(n),
+            m = e.getElementsByTagName(n)[0];
+        a.async = 1;
+        a.src = d;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://cdn.sender.net/accounts_resources/universal.js', 'sender');
+      sender('fa09f43ac05491')
+    </script>
+</head>
+<body>
+
+    <!-- Loading Spinner -->
+    <div id="loader" class="loader"></div>
+
+    <!-- Form Container (initially hidden) -->
+    <div id="form-container" class="w-full max-w-2xl hidden flex justify-center">
+        <div style="text-align: left" class="sender-form-field" data-sender-form-id="e5yw5v"></div>
+    </div>
+
+    <div class="mt-8">
+        <a href="index.html" class="text-blue-600 hover:underline">&larr; Back to BioBlitz</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.getElementById('loader');
+            const formContainer = document.getElementById('form-container');
+            const senderFormField = document.querySelector('.sender-form-field');
+
+            // Function to show the form and hide the loader
+            const showForm = () => {
+                loader.classList.add('hidden');
+                formContainer.classList.remove('hidden');
+            };
+
+            // Use a MutationObserver to watch for when Sender.net injects the form
+            const observer = new MutationObserver((mutationsList, observer) => {
+                // Look for added nodes inside the target element
+                for(const mutation of mutationsList) {
+                    if (mutation.addedNodes.length) {
+                        showForm();
+                        observer.disconnect(); // Stop observing once the form is loaded
+                        return;
+                    }
+                }
+            });
+
+            // Start observing the target node for configured mutations
+            observer.observe(senderFormField, { childList: true });
+
+            // Fallback: If the form doesn't load after 5 seconds, hide the loader anyway
+            // This prevents the loader from spinning forever if the script fails.
+            setTimeout(() => {
+                if (!formContainer.classList.contains('hidden')) return; // Already loaded
+                showForm(); // Show the container (it might be empty, but the loader is gone)
+                observer.disconnect();
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>
